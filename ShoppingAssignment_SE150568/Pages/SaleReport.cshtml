@@ -1,0 +1,89 @@
+﻿@page
+@model ShoppingAssignment_SE150568.Pages.SaleReportModel
+@{
+}
+
+<h1>Report</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="FromDate" class="control-label"></label>
+        <input asp-for="FromDate" class="form-control" />
+        <span asp-validation-for="FromDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ToDate" class="control-label"></label>
+        <input asp-for="ToDate" class="form-control" />
+        <span asp-validation-for="ToDate" class="text-danger"></span>
+    </div>
+    <div class="add-button text-center col-sm-10">
+        <button type="submit" class="btn btn-primary btn-outline-primary">Report</button>
+    </div>
+</form>
+@if (Model.Order != null)
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order.First().OrderId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order.First().OrderDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order.First().RequiredDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order.First().ShippedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order.First().Freight)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order.First().ShipAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order.First().Customer)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Order)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequiredDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShippedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Freight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShipAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.Email)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<script type="text/javascript">
+    window.onload = function() {
+        if ('@TempData["Message"]' != "") {
+            alert('@TempData["Message"]');
+        }
+    };
+</script>

@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<ul class="navbar-nav">
+    @if (HttpContextAccessor.HttpContext.Session.GetString("EMAIL") != null)
+    {
+        if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") == "Customer")
+        {
+            <li class="nav-item mr-3">
+                <a class="nav-item" asp-page="/CartPage/Index">Cart</a>
+            </li>
+            <li class="nav-item mr-3">
+                <a asp-page="/CustomerPage/Details" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetString("CUSTID")">
+                    @HttpContextAccessor.HttpContext.Session.GetString("EMAIL")
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item mr-3">
+                @HttpContextAccessor.HttpContext.Session.GetString("EMAIL")
+            </li>
+        }
+
+        <li class="nav-item">
+            <a class="nav-item" asp-page="/Login" asp-page-handler="Logout">Logout</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Login">Login</a>
+        </li>
+    }
+</ul>

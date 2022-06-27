@@ -1,0 +1,86 @@
+﻿@page
+@model ShoppingAssignment_SE150568.Pages.CartPage.IndexModel
+@{
+    ViewData["Title"] = "Cart";
+}
+<h1 class="text-center">YOUR CART</h1>
+@if (Model.Cart != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Sub-total
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Cart)
+            {
+                <tr>
+                    <form asp-page-handler="Remove" method="post">
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                    <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <a class="" asp-page="./Index" asp-route-id="@item.ProductId" asp-page-handler="Decrease">
+                            -
+                        </a>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        <a class="" asp-page="./Index" asp-route-id="@item.ProductId" asp-page-handler="Increase">
+                            +
+                        </a>
+
+                    </td>
+                    <td>
+                            @{
+                                @(item.Price * item.Quantity)
+                                ;
+
+                            }
+                    </td>
+                    <td>
+
+                        <button class="btn btn-danger" type="submit">Remove</button>
+                    </td>
+                    </form>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <h3 class="float-right">Total price: @Model.TotalPrice</h3>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-success" asp-page="./Checkout">Checkout</a>
+    </div>
+
+}
+else
+{
+    <h1>There is no item in your cart!</h1>
+}
+
+
+<script type="text/javascript">
+    window.onload = function() {
+        if ('@TempData["Message"]' != "") {
+            alert('@TempData["Message"]');
+        }
+    };
+</script>

@@ -1,0 +1,115 @@
+﻿@page
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model ShoppingAssignment_SE150568.Pages.ProductPage.IndexModel
+
+@{
+    ViewData["Title"] = "Product";
+}
+
+<h1 class="text-center mb-5">Product List</h1>
+@*<form asp-action="Search">
+    <div class="form-group row">
+        <label for="searchBox">Search</label>
+        <input type="text" class="form-control col-6" id="searchBox" asp-for="SearchString" />
+        <button class="btn btn-primary mt-3" type="submit">Search</button>
+    </div>
+</form>*@
+<div class="container">
+    @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") == "Admin")
+    {
+        <p>
+            <a asp-page="Create">Create New Product</a>
+        </p>
+    }
+
+    <div class="row">
+        @foreach (var item in Model.Product)
+        {
+            <div class="col-md-4 col-sm-6 mb-3">
+                <div class="product-grid text-center">
+                    <div class="product-image">
+                        <a asp-page="./Details" asp-route-id="@item.ProductId">
+                            <img style="width:300px; height:300px" src="~/Images/@Html.DisplayFor(modelItem => item.ProductImage)" />
+                        </a>
+                    </div>
+                </div>
+                <div class="product-name font-weight-bold text-center">@Html.DisplayFor(modelItem => item.ProductName)</div>
+                <div class="product-price text-center">@Html.DisplayFor(modelItem => item.UnitPrice)</div>
+                <div class="text-center">
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") != "Admin")
+                    {
+                        <form asp-page="/ProductPage/Details" asp-page-handler="AddToCart">
+                            <div class="add-button text-center col-sm-10">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+
+                                <button type="submit" class="btn btn-primary btn-outline-primary">Add To Cart</button>
+                            </div>
+                        </form>
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@*<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].QuantityPerUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].ProductStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Supplier)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Product) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supplier.CompanyName)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ProductId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ProductId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ProductId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>*@

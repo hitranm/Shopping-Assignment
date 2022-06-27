@@ -1,0 +1,94 @@
+﻿@page
+@model ShoppingAssignment_SE150568.Pages.CartPage.CheckoutModel
+@{
+    ViewData["Title"] = "Checkout";
+
+}
+<h1 class="text-center mb-5">Checkout</h1>
+@if (Model.Cart != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Sub-total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Cart)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @{
+                            @(item.Price * item.Quantity)
+                            ;
+
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row float-right">
+        <h3 class="">Total price: @Model.TotalPrice</h3>
+    </div>
+
+    <div class="container">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="RequiredDate" class="control-label"></label>
+                <input asp-for="RequiredDate" class="form-control" />
+                <span asp-validation-for="RequiredDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShippedDate" class="control-label"></label>
+                <input asp-for="ShippedDate" class="form-control" />
+                <span asp-validation-for="ShippedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Freight" class="control-label"></label>
+                <input asp-for="Freight" class="form-control" />
+                <span asp-validation-for="Freight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShipAddress" class="control-label"></label>
+                <input asp-for="ShipAddress" class="form-control" />
+                <span asp-validation-for="ShipAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" value="Place Order" class="btn btn-primary" />
+            </div>
+        </form>
+
+    </div>
+}
+
+<script type="text/javascript">
+    window.onload = function() {
+        if ('@TempData["Message"]' != "") {
+            alert('@TempData["Message"]');
+        }
+    };
+</script>

@@ -1,0 +1,95 @@
+﻿@page
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model ShoppingAssignment_SE150568.Pages.OrderPage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<form method="get" asp-page-handler="Report">
+    <div class="form-group">
+        <label asp-for="FromDate" class="control-label"></label>
+        <input asp-for="FromDate" class="form-control" />
+        <span asp-validation-for="FromDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ToDate" class="control-label"></label>
+        <input asp-for="ToDate" class="form-control" />
+        <span asp-validation-for="ToDate" class="text-danger"></span>
+    </div>
+    <div class="add-button text-center col-sm-10">
+        <button type="submit" class="btn btn-primary btn-outline-primary">Report</button>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.First().OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.First().OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.First().RequiredDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.First().ShippedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.First().Freight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.First().ShipAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.First().Customer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequiredDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShippedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Freight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShipAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Email)
+                </td>
+                <td>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("ROLE") == "Admin")
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.OrderId">Edit</a>
+                        <a asp-page="./Details" asp-route-id="@item.OrderId">Details</a>
+                    }
+
+                    else
+                    {
+                        <a asp-page="./Details" asp-route-id="@item.OrderId">Details</a>
+                    }
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
